@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import 'openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
@@ -48,10 +48,10 @@ contract Room is Destructible, Pausable, Activatable {
   }
 
   // ルームオーナーへの全額返金はルームが非活性の時のみ実行させたいため
-  function refundToOwner() external whenNotActivate onlyOwner {
+  function refundToOwner() external whenNotActive onlyOwner {
     require(address(this).balance > 0);
 
-    uint256 refundBalance = address(this).balance;
+    uint256 refundedBalance = address(this).balance;
     owner.transfer(refundedBalance);
     emit RefundedToOwner(msg.sender, refundedBalance);
   }

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
@@ -7,7 +7,7 @@ contract Activatable is Ownable {
   event Deactivate(address indexed _sender);
   event Activate(address indexed _sender);
 
-  bool public activate = false;
+  bool public active = false;
 
   modifier whenActive() {
     require(active);
