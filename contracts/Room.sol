@@ -3,8 +3,9 @@ pragma solidity ^0.8.4;
 
 import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import 'openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
+import './Activatable.sol';
 
-contract Room is Destructible, Pausable {
+contract Room is Destructible, Pausable, Activatable {
   // sendReward関数を実行する際の二重支払いの防止のため
   mapping (uint256 => bool) public rewardSent;
 
@@ -46,7 +47,8 @@ contract Room is Destructible, Pausable {
     emit RewardSent(_dest, _reward, _id);
   }
 
-  function refundToOwner() external onlyOwner {
+  // ルームオーナーへの全額返金はルームが非活性の時のみ実行させたいため
+  function refundToOwner() external whenNotActivate onlyOwner {
     require(address(this).balance > 0);
 
     uint256 refundBalance = address(this).balance;
