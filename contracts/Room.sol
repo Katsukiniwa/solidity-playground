@@ -5,6 +5,7 @@ import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import 'openzeppelin-solidity/contracts/lifecycle/Destructible.sol';
 
 contract Room is Destructible, Pausable {
+  // sendReward関数を実行する際の二重支払いの防止のため
   mapping (uint256 => bool) public rewardSent;
 
   event Deposited (
